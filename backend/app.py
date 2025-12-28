@@ -323,6 +323,9 @@ def transfer_style():
             - error: Error message if processing failed
     """
     try:
+        print("=" * 60)
+        print("Style transfer request received")
+        print("=" * 60)
         start_time = time.time()
         
         # Validate that both required files are present
@@ -352,11 +355,16 @@ def transfer_style():
             return jsonify({'error': 'File size exceeds 10MB limit'}), 400
         
         # Preprocess images
+        print("Preprocessing images...")
         content_img = preprocess_image(content_bytes)
         style_img = preprocess_image(style_bytes)
+        print(f"Content image shape: {content_img.shape}")
+        print(f"Style image shape: {style_img.shape}")
         
         # Apply style transfer
+        print("Applying style transfer (this may take 1-2 minutes on first request)...")
         result_img = apply_style_transfer(content_img, style_img)
+        print("Style transfer completed successfully")
         
         # Postprocess result
         result_img = postprocess_image(result_img)
@@ -378,9 +386,18 @@ def transfer_style():
         
     except Exception as e:
         error_msg = str(e)
-        print(f"Error in transfer_style: {error_msg}")
-        print(traceback.format_exc())
-        return jsonify({'error': f'Processing failed: {error_msg}'}), 500
+        error_trace = traceback.format_exc()
+        print("=" * 60)
+        print(f"ERROR in transfer_style endpoint:")
+        print(f"Error message: {error_msg}")
+        print(f"Traceback:")
+        print(error_trace)
+        print("=" * 60)
+        # Return a user-friendly error message
+        return jsonify({
+            'error': f'Processing failed: {error_msg}',
+            'details': 'Check server logs for more information'
+        }), 500
 
 
 @app.route('/api/preset-styles', methods=['GET'])
