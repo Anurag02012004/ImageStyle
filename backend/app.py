@@ -170,7 +170,8 @@ def apply_style_transfer(content_image, style_image):
         # The environment variable TF_SERVING_URL should be set to:
         # http://imagestyle-model:8501/v1/models/style_transfer:predict
         print(f"Sending request to TF Serving at: {TF_SERVING_URL}")
-        response = requests.post(TF_SERVING_URL, json=payload)
+        # Set a short timeout (5 seconds) to fail fast if the model server is unresponsive/OOM
+        response = requests.post(TF_SERVING_URL, json=payload, timeout=5)
         response.raise_for_status()
         
         # Parse response
@@ -378,23 +379,14 @@ def transfer_style():
         # This ensures the user always gets a result as requested
         try:
             print("Attempting fallback: Returning original content image...")
-            # Reset file pointer
-            content_file.seek(0)
-            # Read original image
-            original_img = Image.open(content_file)
-            # Convert to RGB
-            if original_img.mode != 'RGB':
-                original_img = original_img.convert('RGB')
             
-            # Resize if too large (to match what would have happened)
-            max_dim = 1024
-            if max(original_img.size) > max_dim:
-                original_img.thumbnail((max_dim, max_dim))
-                
-            # Convert to base64
-            buff = io.BytesIO()
-            original_img.save(buff, format='PNG')
-            img_base64 = base64.b64encode(buff.getvalue()).decode('utf-8')
+            # Use the content_bytes we already read earlier - this is safer than re-reading the file
+            if 'content_bytes' in locals():
+                img_base64 = base64.b64encode(content_bytes).decode('utf-8')
+            else:
+                # Fallback to re-reading if content_bytes is not available for some reason
+                content_file.seek(0)
+                img_base64 = base64.b64encode(content_file.read()).decode('utf-8')
             
             return jsonify({
                 'success': True,
