@@ -245,6 +245,28 @@ def simple_style_transfer(content_img, style_img):
     return result_rgb.astype(np.float32) / 255.0
 
 
+@app.route('/', methods=['GET'])
+def root():
+    """
+    Root endpoint providing API information.
+    
+    Returns:
+        JSON response with API information and available endpoints
+    """
+    return jsonify({
+        'service': 'Neural Style Transfer API',
+        'version': '1.0.0',
+        'status': 'running',
+        'endpoints': {
+            'health': '/health',
+            'transfer': '/api/transfer',
+            'preset_styles': '/api/preset-styles'
+        },
+        'documentation': 'https://github.com/Anurag02012004/ImageStyle',
+        'model_loaded': style_transfer_model is not None
+    })
+
+
 @app.route('/health', methods=['GET'])
 def health():
     """
