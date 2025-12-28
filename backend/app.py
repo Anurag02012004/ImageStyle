@@ -31,7 +31,15 @@ CORS(app)  # Enable Cross-Origin Resource Sharing for frontend access
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB maximum file size
-TF_SERVING_URL = os.environ.get('TF_SERVING_URL', 'http://tf-serving:8501/v1/models/style_transfer:predict')
+
+# Determine TF Serving URL based on environment
+# If running on Render (RENDER=true), default to the Render service name 'imagestyle-model'
+# If running locally with Docker Compose, default to 'tf-serving'
+default_tf_url = 'http://tf-serving:8501/v1/models/style_transfer:predict'
+if os.environ.get('RENDER'):
+    default_tf_url = 'http://imagestyle-model:8501/v1/models/style_transfer:predict'
+
+TF_SERVING_URL = os.environ.get('TF_SERVING_URL', default_tf_url)
 
 # Create uploads directory if it doesn't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
