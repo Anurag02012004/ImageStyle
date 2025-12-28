@@ -28,6 +28,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [processingTime, setProcessingTime] = useState(null);
   const [error, setError] = useState(null);
+  const [infoMessage, setInfoMessage] = useState(null);
 
   // API URL - uses environment variable or defaults to localhost
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -48,6 +49,7 @@ function App() {
     // Reset previous results and set loading state
     setLoading(true);
     setError(null);
+    setInfoMessage(null);
     setResultImage(null);
 
     try {
@@ -68,6 +70,11 @@ function App() {
       if (response.data.success) {
         setResultImage(response.data.result_image);
         setProcessingTime(response.data.processing_time);
+        
+        // Check for informational notes (e.g. fallback messages)
+        if (response.data.note) {
+          setInfoMessage(response.data.note);
+        }
       }
     } catch (err) {
       console.error('Error:', err);
@@ -92,6 +99,7 @@ function App() {
     setStyleImage(null);
     setResultImage(null);
     setError(null);
+    setInfoMessage(null);
     setProcessingTime(null);
   };
 
@@ -147,6 +155,21 @@ function App() {
           {error && (
             <div className="error-message">
               <span>⚠️ {error}</span>
+            </div>
+          )}
+
+          {/* Info Message Display (for Fallbacks) */}
+          {infoMessage && (
+            <div className="info-message" style={{
+              backgroundColor: '#fff3cd',
+              color: '#856404',
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              marginTop: '1rem',
+              border: '1px solid #ffeeba',
+              textAlign: 'center'
+            }}>
+              <span>ℹ️ {infoMessage}</span>
             </div>
           )}
 

@@ -400,7 +400,7 @@ def transfer_style():
                 'success': True,
                 'result_image': f'data:image/png;base64,{img_base64}',
                 'processing_time': 0.0,
-                'note': 'Fallback: Original image returned due to processing error'
+                'note': 'Due to heavy memory limits on the free tier, the style transfer model could not run. Showing original image instead.'
             })
         except Exception as fallback_error:
             print(f"Fallback failed: {fallback_error}")
