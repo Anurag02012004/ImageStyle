@@ -17,9 +17,8 @@ services:
     healthCheckPath: /health
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: imagestyle-frontend
-    env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
     envVars:
@@ -28,5 +27,3 @@ services:
           type: web
           name: imagestyle-backend
           property: host
-    plan: free
-
