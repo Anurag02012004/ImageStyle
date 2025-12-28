@@ -46,6 +46,8 @@ def load_style_transfer_model():
     which is a state-of-the-art model for performing style transfer on images.
     The model is cached globally to avoid reloading on every request.
     
+    Note: First load may take 1-2 minutes as the model downloads from TensorFlow Hub.
+    
     Returns:
         The loaded TensorFlow Hub model, or "simple_model" string if loading fails
     """
@@ -54,13 +56,21 @@ def load_style_transfer_model():
     if style_transfer_model is None:
         try:
             import tensorflow_hub as hub
+            print("=" * 60)
             print("Loading style transfer model from TensorFlow Hub...")
+            print("This may take 1-2 minutes on first load (downloading model)...")
+            print("=" * 60)
             
             # Google Magenta's Arbitrary Image Stylization model
             # This is a pre-trained model that can apply any artistic style to any image
             model_url = "https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2"
+            
+            # Load the model (this will download if not cached)
             style_transfer_model = hub.load(model_url)
-            print("Style transfer model loaded successfully")
+            
+            print("=" * 60)
+            print("✓ Style transfer model loaded successfully!")
+            print("=" * 60)
         except Exception as e:
             print(f"Error loading model: {e}")
             print(traceback.format_exc())
@@ -253,17 +263,22 @@ def root():
     Returns:
         JSON response with API information and available endpoints
     """
+    model_status = style_transfer_model is not None
+    model_info = "loaded" if model_status else "loading (may take 1-2 minutes on first request)"
+    
     return jsonify({
         'service': 'Neural Style Transfer API',
         'version': '1.0.0',
         'status': 'running',
+        'model_status': model_info,
         'endpoints': {
             'health': '/health',
             'transfer': '/api/transfer',
             'preset_styles': '/api/preset-styles'
         },
         'documentation': 'https://github.com/Anurag02012004/ImageStyle',
-        'model_loaded': style_transfer_model is not None
+        'model_loaded': model_status,
+        'note': 'Model loads on first request if not already loaded. This may take 1-2 minutes.'
     })
 
 
@@ -275,9 +290,13 @@ def health():
     Returns:
         JSON response with service status and model loading state
     """
+    model_loaded = style_transfer_model is not None
+    
     return jsonify({
         'status': 'healthy',
-        'model_loaded': style_transfer_model is not None
+        'model_loaded': model_loaded,
+        'model_status': 'ready' if model_loaded else 'loading (will load on first style transfer request)',
+        'note': 'Model downloads from TensorFlow Hub on first load (1-2 minutes)'
     })
 
 
@@ -387,6 +406,8 @@ if __name__ == '__main__':
     Pre-loads the style transfer model and starts the development server.
     """
     # Pre-load model on startup to avoid delay on first request
+    # Note: In production with gunicorn, this runs in each worker process
+    print("Initializing application...")
     load_style_transfer_model()
     
     # Get port from environment variable or use default
