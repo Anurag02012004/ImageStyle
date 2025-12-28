@@ -157,6 +157,10 @@ def apply_style_transfer(content_image, style_image):
         }
         
         # Send request to TF Serving
+        # Note: On Render, internal service names are used for DNS resolution.
+        # The environment variable TF_SERVING_URL should be set to:
+        # http://imagestyle-model:8501/v1/models/style_transfer:predict
+        print(f"Sending request to TF Serving at: {TF_SERVING_URL}")
         response = requests.post(TF_SERVING_URL, json=payload)
         response.raise_for_status()
         
