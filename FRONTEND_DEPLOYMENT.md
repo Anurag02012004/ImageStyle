@@ -16,8 +16,12 @@ Your backend is now **live** at: `https://imagestyle-backend.onrender.com`
 
 4. **Configure Settings**:
    - **Name**: `imagestyle-frontend` (or any name you prefer)
+   - **Root Directory**: Leave **EMPTY** (don't set this!)
    - **Build Command**: `cd frontend && npm install && npm run build`
+     - ⚠️ **Important**: Make sure there are no extra spaces or characters
+     - Copy exactly: `cd frontend && npm install && npm run build`
    - **Publish Directory**: `frontend/build`
+     - ⚠️ **Important**: Make sure it's exactly `frontend/build` (no leading slash)
 
 5. **Add Environment Variable**:
    - Click **"Advanced"** → **"Add Environment Variable"**
