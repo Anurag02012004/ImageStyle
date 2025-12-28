@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+frontend/build/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Uploads
+backend/uploads/
+*.jpg
+*.jpeg
+*.png
+*.webp
+!example_images/**/*.jpg
+!example_images/**/*.jpeg
+!example_images/**/*.png
+
+# Logs
+*.log
+backend.log
+frontend.log
+
+# PID files
+*.pid
+
+# Docker
+.dockerignore
