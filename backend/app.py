@@ -251,8 +251,6 @@ def root():
         'documentation': 'https://github.com/Anurag02012004/ImageStyle',
         'note': 'Model is served by a separate container'
     })
-        'note': 'Model is served by a separate container'
-    })
 
 
 @app.route('/health', methods=['GET'])
