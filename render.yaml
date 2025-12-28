@@ -24,7 +24,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: TF_SERVING_URL
-        value: http://imagestyle-model:8501/v1/models/style_transfer:predict
+        value: http://imagestyle-model/v1/models/style_transfer:predict
 
   # Frontend Static Site (Best for React, Free, Fast)
   - type: static

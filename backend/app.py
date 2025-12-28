@@ -37,7 +37,8 @@ MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB maximum file size
 # If running locally with Docker Compose, default to 'tf-serving'
 default_tf_url = 'http://tf-serving:8501/v1/models/style_transfer:predict'
 if os.environ.get('RENDER'):
-    default_tf_url = 'http://imagestyle-model:8501/v1/models/style_transfer:predict'
+    # On Render, we access the service via port 80 (default HTTP) which routes to the service's port
+    default_tf_url = 'http://imagestyle-model/v1/models/style_transfer:predict'
 
 TF_SERVING_URL = os.environ.get('TF_SERVING_URL', default_tf_url)
 

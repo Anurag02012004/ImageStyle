@@ -8,3 +8,9 @@ ENV MODEL_NAME=style_transfer
 
 # Expose the serving port
 EXPOSE 8501
+
+# Override the entrypoint to allow using the PORT environment variable
+# Render sets the PORT environment variable, which we must listen on.
+# We use shell parameter expansion to default to 8501 if PORT is not set.
+ENTRYPOINT []
+CMD ["sh", "-c", "tensorflow_model_server --port=8500 --rest_api_port=${PORT:-8501} --model_name=${MODEL_NAME} --model_base_path=/models/${MODEL_NAME}"]
