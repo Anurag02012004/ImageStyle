@@ -1,15 +1,16 @@
-FROM python:3.11-slim
+FROM tensorflow/serving
 
-WORKDIR /app
+# Copy the model
+COPY models/style_transfer /models/style_transfer
 
-# Install Flask for the mock server
-RUN pip install flask
-
-# Copy the mock server code
-COPY mock_model.py .
+# Set the model name environment variable
+ENV MODEL_NAME=style_transfer
 
 # Expose the serving port
 EXPOSE 8501
 
-# Run the mock server
-CMD ["python", "mock_model.py"]
+# Override the entrypoint to allow using the PORT environment variable
+# Render sets the PORT environment variable, which we must listen on.
+# We use shell parameter expansion to default to 8501 if PORT is not set.
+ENTRYPOINT []
+CMD ["sh", "-c", "tensorflow_model_server --port=8500 --rest_api_port=${PORT:-8501} --model_name=${MODEL_NAME} --model_base_path=/models/${MODEL_NAME}"]
