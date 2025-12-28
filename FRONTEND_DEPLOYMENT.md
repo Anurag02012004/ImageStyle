@@ -1,4 +1,4 @@
-# 🎨 Frontend Deployment Instructions
+#  Frontend Deployment Instructions
 
 Your backend is now **live** at: `https://imagestyle-backend.onrender.com`
 
@@ -76,7 +76,7 @@ After deployment:
 
 ## Cost
 
-Both services are **FREE** on Render's free tier! 🎉
+Both services are **FREE** on Render's free tier! 
 
 ---
 

@@ -1,4 +1,4 @@
-# 🚀 Render.com Deployment Guide
+#  Render.com Deployment Guide
 
 ## Important Note About render.yaml
 
@@ -44,7 +44,7 @@ If you need to update the backend URL later:
 If you prefer to deploy both as web services:
 
 ### Backend (from render.yaml):
-- Already configured ✅
+- Already configured 
 
 ### Frontend (manual web service):
 1. **"New +"** → **"Web Service"**
@@ -88,5 +88,5 @@ Both services are on the **free tier**:
 
 ---
 
-**After deployment, your app will be live!** 🎉
+**After deployment, your app will be live!** 
 

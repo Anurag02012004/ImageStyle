@@ -1,16 +1,16 @@
-# 🎨 Neural Style Transfer Web Application
+#  Neural Style Transfer Web Application
 
 A sophisticated, production-ready web application that transforms ordinary photographs into stunning artistic masterpieces using advanced neural style transfer technology. Built with cutting-edge machine learning models and modern web technologies.
 
-## ✨ Features
+##  Features
 
-- **🎭 Real-Time Style Transfer**: Transform images with artistic styles using state-of-the-art neural networks
-- **📤 Drag & Drop Interface**: Intuitive image upload with instant preview
-- **🚀 High Performance**: Optimized processing with automatic image resizing
-- **🎨 Multiple Formats**: Support for PNG, JPG, JPEG, and WEBP formats
-- **⚡ Fast Processing**: Efficient TensorFlow model execution
-- **🐳 Docker Ready**: Complete containerization for easy deployment
-- **📱 Responsive Design**: Beautiful, modern UI that works on all devices
+- ** Real-Time Style Transfer**: Transform images with artistic styles using state-of-the-art neural networks
+- ** Drag & Drop Interface**: Intuitive image upload with instant preview
+- ** High Performance**: Optimized processing with automatic image resizing
+- ** Multiple Formats**: Support for PNG, JPG, JPEG, and WEBP formats
+- ** Fast Processing**: Efficient TensorFlow model execution
+- ** Docker Ready**: Complete containerization for easy deployment
+- ** Responsive Design**: Beautiful, modern UI that works on all devices
 
 ## 🛠️ Technology Stack
 
@@ -34,7 +34,7 @@ A sophisticated, production-ready web application that transforms ordinary photo
 - **Docker Compose**: Multi-container orchestration
 - **Nginx**: Production web server (frontend)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ npm start
 
 The frontend will open automatically at `http://localhost:3000`
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### Using Docker Compose (Recommended)
 
@@ -120,11 +120,11 @@ docker build -t style-transfer-frontend .
 docker run -p 3000:3000 style-transfer-frontend
 ```
 
-## 🌐 Live Demo
+##  Live Demo
 
 Visit the live application: [Demo URL will be added after deployment]
 
-## 📖 Usage Guide
+##  Usage Guide
 
 1. **Upload Content Image**: Select or drag-and-drop the image you want to stylize
 2. **Upload Style Image**: Choose an artistic style image (paintings, textures, etc.)
@@ -138,7 +138,7 @@ Visit the live application: [Demo URL will be added after deployment]
 - **File Formats**: PNG for best quality, JPG for smaller file sizes
 - **Image Size**: Maximum 10MB per image (automatically resized if larger)
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ImageStyle/
@@ -161,7 +161,7 @@ ImageStyle/
 └── README.md             # This file
 ```
 
-## 🔧 API Documentation
+##  API Documentation
 
 ### Endpoints
 
@@ -198,7 +198,7 @@ Content-Type: multipart/form-data
 }
 ```
 
-## 🎯 Example Images
+##  Example Images
 
 The repository includes example images in the `example_images/` directory:
 
@@ -207,7 +207,7 @@ The repository includes example images in the `example_images/` directory:
 
 Try combining these for your first style transfer!
 
-## 🚀 Deployment Options
+##  Deployment Options
 
 ### Free Hosting Services
 
@@ -238,7 +238,7 @@ Try combining these for your first style transfer!
 - Frontend: Deploy to Vercel (automatic with GitHub integration)
 - Backend: Deploy to Render as described above
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 # Test backend API
@@ -250,7 +250,7 @@ curl -X POST http://localhost:8000/api/transfer \
   -F "style_image=@example_images/style/starry_night.jpg"
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 **Backend Issues:**
 - Ensure Python 3.11+ is installed
@@ -268,24 +268,24 @@ curl -X POST http://localhost:8000/api/transfer \
 - Check image file sizes (max 10MB)
 - Verify internet connection (required for first model download)
 
-## 📝 License
+##  License
 
 This project is open source and available under the MIT License.
 
-## 👤 Author
+##  Author
 
 **Anurag**
 
 - GitHub: [@Anurag02012004](https://github.com/Anurag02012004)
 - Repository: [ImageStyle](https://github.com/Anurag02012004/ImageStyle)
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Google Magenta team for the Arbitrary Image Stylization model
 - TensorFlow team for the excellent ML framework
 - React community for amazing tools and libraries
 
-## 📈 Future Enhancements
+##  Future Enhancements
 
 - [ ] Multiple style presets
 - [ ] Batch processing support
@@ -294,7 +294,7 @@ This project is open source and available under the MIT License.
 - [ ] Social sharing features
 - [ ] Mobile app version
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Anurag02012004/ImageStyle/issues).
 
@@ -302,4 +302,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 **Made with ❤️ using TensorFlow, Flask, and React**
 
-*Transform your photos into artistic masterpieces!* 🎨✨
+*Transform your photos into artistic masterpieces!* 

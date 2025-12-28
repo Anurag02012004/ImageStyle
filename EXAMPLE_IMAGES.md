@@ -24,7 +24,7 @@
   - Oil paintings
   - Sketch or drawing styles
 
-## 🎨 Free Example Images You Can Use
+##  Free Example Images You Can Use
 
 ### Content Images (Test Images)
 1. **Portrait/Person:**
@@ -55,7 +55,7 @@
 4. **Watercolor Style:**
    - https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800
 
-## 🚀 Quick Test Combinations
+##  Quick Test Combinations
 
 ### Test 1: Portrait with Starry Night Style
 - **Content:** Portrait photo
@@ -72,7 +72,7 @@
 - **Style:** Abstract colorful art
 - **Expected:** Building with abstract color patterns
 
-## 💡 Tips for Best Results
+##  Tips for Best Results
 
 1. **Image Size:** 
    - Good: 500x500 to 2000x2000 pixels
@@ -92,21 +92,21 @@
    - High contrast style images produce more dramatic results
    - Famous paintings often work very well
 
-## 📥 How to Use These Images
+##  How to Use These Images
 
 1. **Right-click on any image link above**
 2. **Select "Save Image As..." or "Download Image"**
 3. **Save to your computer**
 4. **Upload in the Style Transfer app**
 
-## 🔗 Alternative Sources for Images
+##  Alternative Sources for Images
 
 - **Unsplash** (free photos): https://unsplash.com
 - **Pexels** (free photos): https://pexels.com
 - **Wikimedia Commons** (public domain art): https://commons.wikimedia.org
 - **Artvee** (public domain art): https://artvee.com
 
-## ⚡ Quick Start Test
+##  Quick Start Test
 
 Try this quick test:
 1. Download a portrait photo from Unsplash
@@ -114,5 +114,5 @@ Try this quick test:
 3. Upload portrait as Content Image
 4. Upload Starry Night as Style Image
 5. Click "Transfer Style"
-6. Enjoy your artistic creation! 🎨
+6. Enjoy your artistic creation! 
 

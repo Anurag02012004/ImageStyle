@@ -1,4 +1,4 @@
-# 🚀 Quick Start Guide - Style Transfer
+#  Quick Start Guide - Style Transfer
 
 ## What Images Should I Upload?
 
@@ -6,23 +6,23 @@
 **This is the image you want to transform/stylize.**
 
 Good examples:
-- 📸 A photo of yourself or a person
+-  A photo of yourself or a person
 - 🏔️ A landscape or nature scene
 - 🏛️ A building or architecture photo
-- 🐱 A pet or animal photo
-- 🎭 Any clear, detailed photograph
+-  A pet or animal photo
+-  Any clear, detailed photograph
 
 ### Style Image (Right Side)
 **This is the artistic style you want to apply.**
 
 Good examples:
-- 🎨 Famous paintings (Van Gogh, Picasso, Monet)
-- 🌊 The Great Wave by Hokusai
-- ⭐ The Starry Night by Van Gogh
+-  Famous paintings (Van Gogh, Picasso, Monet)
+-  The Great Wave by Hokusai
+-  The Starry Night by Van Gogh
 - 🖼️ Any artistic painting or texture
-- 🎨 Abstract art or patterns
+-  Abstract art or patterns
 
-## 📥 Ready-to-Use Example Images
+##  Ready-to-Use Example Images
 
 I've downloaded some example images for you! They're in:
 
@@ -36,7 +36,7 @@ example_images/
     └── great_wave.jpg
 ```
 
-## 🎯 Best Test Combinations
+##  Best Test Combinations
 
 ### Combination 1: Portrait + Starry Night
 - Content: `example_images/content/portrait.jpg`
@@ -60,23 +60,23 @@ example_images/
 2. **Artvee** - https://artvee.com (public domain artwork)
 3. Search Google Images for "famous paintings" and use images marked as "reusable"
 
-## 💡 Pro Tips
+##  Pro Tips
 
 1. **Start Simple:** Try a portrait with Starry Night first - it's very recognizable!
 2. **Use High-Quality Images:** Clear, detailed images work best
 3. **Be Creative:** Try different combinations - you might be surprised!
 4. **Image Size:** The app handles images up to 10MB, automatically resizing large ones
 
-## 🎨 Quick Test Right Now
+##  Quick Test Right Now
 
 1. Open http://localhost:3000 in your browser
 2. Upload `example_images/content/portrait.jpg` as Content Image
 3. Upload `example_images/style/starry_night.jpg` as Style Image
-4. Click "✨ Transfer Style"
+4. Click " Transfer Style"
 5. Wait a few seconds...
-6. See your masterpiece! 🎉
+6. See your masterpiece! 
 
-## 📸 Need More Examples?
+##  Need More Examples?
 
 Run this command to download more example images:
 ```bash

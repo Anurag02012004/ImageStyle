@@ -4,12 +4,12 @@
 
 case "$1" in
     start)
-        echo "🚀 Starting Style Transfer Application..."
+        echo " Starting Style Transfer Application..."
         
         # Start backend
         cd "$(dirname "$0")/backend"
         if [ ! -d "venv" ]; then
-            echo "❌ Virtual environment not found. Please run setup first."
+            echo " Virtual environment not found. Please run setup first."
             exit 1
         fi
         source venv/bin/activate
@@ -21,7 +21,7 @@ case "$1" in
         # Wait for backend
         sleep 3
         if curl -s http://localhost:8000/health > /dev/null; then
-            echo "✅ Backend started (PID: $BACKEND_PID)"
+            echo " Backend started (PID: $BACKEND_PID)"
         else
             echo "⚠️  Backend may still be starting..."
         fi
@@ -33,56 +33,56 @@ case "$1" in
         echo $FRONTEND_PID > ../frontend.pid
         cd ..
         
-        echo "✅ Frontend started (PID: $FRONTEND_PID)"
+        echo " Frontend started (PID: $FRONTEND_PID)"
         echo ""
-        echo "🌐 Application URLs:"
+        echo " Application URLs:"
         echo "   Frontend: http://localhost:3000"
         echo "   Backend:  http://localhost:8000"
         echo ""
-        echo "📝 View logs:"
+        echo " View logs:"
         echo "   tail -f backend.log"
         echo "   tail -f frontend.log"
         ;;
         
     stop)
-        echo "🛑 Stopping servers..."
+        echo " Stopping servers..."
         
         if [ -f backend.pid ]; then
             kill $(cat backend.pid) 2>/dev/null
             rm backend.pid
-            echo "✅ Backend stopped"
+            echo " Backend stopped"
         else
             pkill -f "python.*app.py" 2>/dev/null
-            echo "✅ Backend stopped (if it was running)"
+            echo " Backend stopped (if it was running)"
         fi
         
         if [ -f frontend.pid ]; then
             kill $(cat frontend.pid) 2>/dev/null
             rm frontend.pid
-            echo "✅ Frontend stopped"
+            echo " Frontend stopped"
         else
             pkill -f "react-scripts" 2>/dev/null
-            echo "✅ Frontend stopped (if it was running)"
+            echo " Frontend stopped (if it was running)"
         fi
         ;;
         
     status)
-        echo "📊 Server Status:"
+        echo " Server Status:"
         echo ""
         
         if curl -s http://localhost:8000/health > /dev/null 2>&1; then
-            echo "✅ Backend: Running on http://localhost:8000"
+            echo " Backend: Running on http://localhost:8000"
             curl -s http://localhost:8000/health | python3 -m json.tool 2>/dev/null | sed 's/^/   /'
         else
-            echo "❌ Backend: Not running"
+            echo " Backend: Not running"
         fi
         
         echo ""
         
         if curl -s http://localhost:3000 > /dev/null 2>&1; then
-            echo "✅ Frontend: Running on http://localhost:3000"
+            echo " Frontend: Running on http://localhost:3000"
         else
-            echo "❌ Frontend: Not running"
+            echo " Frontend: Not running"
         fi
         ;;
         
@@ -95,7 +95,7 @@ case "$1" in
                 tail -f frontend.log
                 ;;
             *)
-                echo "📝 Recent logs:"
+                echo " Recent logs:"
                 echo ""
                 echo "=== Backend (last 20 lines) ==="
                 tail -20 backend.log 2>/dev/null || echo "No backend log found"

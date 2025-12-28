@@ -36,7 +36,7 @@ const ImageUploader = ({ image, setImage, label }) => {
           </div>
         ) : (
           <div className="dropzone-content">
-            <div className="upload-icon">📤</div>
+            <div className="upload-icon"></div>
             <p className="dropzone-text">
               {isDragActive ? 'Drop image here' : label || 'Click or drag image here'}
             </p>

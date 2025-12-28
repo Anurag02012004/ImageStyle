@@ -100,7 +100,7 @@ function App() {
       <div className="container">
         {/* Application Header */}
         <header className="header">
-          <h1>🎨 Neural Style Transfer</h1>
+          <h1> Neural Style Transfer</h1>
           <p className="subtitle">Transform your images with AI-powered artistic styles</p>
         </header>
 
@@ -134,7 +134,7 @@ function App() {
               onClick={handleTransfer}
               disabled={loading || !contentImage || !styleImage}
             >
-              {loading ? '🔄 Processing...' : '✨ Transfer Style'}
+              {loading ? ' Processing...' : ' Transfer Style'}
             </button>
             {(contentImage || styleImage || resultImage) && (
               <button className="reset-button" onClick={handleReset}>

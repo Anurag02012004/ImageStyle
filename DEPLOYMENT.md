@@ -1,8 +1,8 @@
-# 🚀 Deployment Guide
+#  Deployment Guide
 
 This guide provides step-by-step instructions for deploying the Neural Style Transfer application to various free hosting platforms.
 
-## 🌐 Deployment Options
+##  Deployment Options
 
 ### Option 1: Render.com (Recommended - Easiest)
 
@@ -134,7 +134,7 @@ Fly.io offers free hosting with Docker support.
    fly deploy
    ```
 
-## 🔧 Environment Variables
+##  Environment Variables
 
 ### Backend Environment Variables
 
@@ -144,7 +144,7 @@ Fly.io offers free hosting with Docker support.
 
 - `REACT_APP_API_URL`: Backend API URL (e.g., `https://your-backend.onrender.com`)
 
-## 📝 Post-Deployment Steps
+##  Post-Deployment Steps
 
 1. **Update CORS** (if needed):
    - If frontend is on a different domain, update CORS settings in `backend/app.py`
@@ -158,7 +158,7 @@ Fly.io offers free hosting with Docker support.
    - Check backend logs for errors
    - Monitor API response times
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Backend Issues
 
@@ -173,14 +173,14 @@ Fly.io offers free hosting with Docker support.
 - **Build Fails**: Check Node.js version (requires 16+)
 - **CORS Errors**: Update CORS settings in backend
 
-## 🔒 Security Considerations
+##  Security Considerations
 
 1. **Rate Limiting**: Consider adding rate limiting to prevent abuse
 2. **File Size Limits**: Already implemented (10MB max)
 3. **Input Validation**: Already implemented
 4. **CORS**: Configured for frontend domain
 
-## 💰 Cost Estimates
+##  Cost Estimates
 
 All platforms mentioned offer **free tiers** that are sufficient for:
 - Low to medium traffic
@@ -190,7 +190,7 @@ All platforms mentioned offer **free tiers** that are sufficient for:
 
 For production use with high traffic, consider paid plans.
 
-## 📚 Additional Resources
+##  Additional Resources
 
 - [Render Documentation](https://render.com/docs)
 - [Railway Documentation](https://docs.railway.app)

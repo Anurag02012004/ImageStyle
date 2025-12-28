@@ -8,7 +8,7 @@ const ResultDisplay = ({ resultImage, loading }) => {
 
   return (
     <div className="result-display">
-      <h2>✨ Stylized Result</h2>
+      <h2> Stylized Result</h2>
       <div className="result-container">
         {loading ? (
           <div className="loading-spinner">
@@ -24,7 +24,7 @@ const ResultDisplay = ({ resultImage, loading }) => {
                 download="stylized-image.png"
                 className="download-button"
               >
-                💾 Download
+                 Download
               </a>
             </div>
           </div>
