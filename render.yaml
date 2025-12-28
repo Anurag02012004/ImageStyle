@@ -16,14 +16,6 @@ services:
     plan: free
     healthCheckPath: /health
 
-  # Frontend Static Site
-  - type: static
-    name: imagestyle-frontend
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: imagestyle-backend
-          property: host
+  # Frontend - Deploy as separate static site (deploy manually in Render dashboard)
+  # Note: Static sites cannot be configured in render.yaml
+  # Deploy frontend separately: New → Static Site → Connect repo → Build: cd frontend && npm install && npm run build → Publish: frontend/build
