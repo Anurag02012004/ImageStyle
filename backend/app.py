@@ -242,12 +242,15 @@ def root():
         'version': '1.0.0',
         'status': 'running',
         'model_status': 'served via TensorFlow Serving',
+        'tf_serving_url': TF_SERVING_URL,
         'endpoints': {
             'health': '/health',
             'transfer': '/api/transfer',
             'preset_styles': '/api/preset-styles'
         },
         'documentation': 'https://github.com/Anurag02012004/ImageStyle',
+        'note': 'Model is served by a separate container'
+    })
         'note': 'Model is served by a separate container'
     })
 
@@ -397,12 +400,11 @@ def get_preset_styles():
 if __name__ == '__main__':
     """
     Main entry point for the Flask application.
-    Pre-loads the style transfer model and starts the development server.
     """
-    # Pre-load model on startup to avoid delay on first request
-    # Note: In production with gunicorn, this runs in each worker process
-    print("Initializing application...")
-    load_style_transfer_model()
+    print("=" * 60)
+    print(f"Initializing application...")
+    print(f"TF_SERVING_URL configured as: {TF_SERVING_URL}")
+    print("=" * 60)
     
     # Get port from environment variable or use default
     port = int(os.environ.get('PORT', 8000))

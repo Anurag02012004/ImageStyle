@@ -1,5 +1,10 @@
 FROM tensorflow/serving
 
+# Copy the model
 COPY models/style_transfer /models/style_transfer
 
+# Set the model name environment variable
 ENV MODEL_NAME=style_transfer
+
+# Expose the serving port
+EXPOSE 8501
