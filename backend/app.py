@@ -185,8 +185,9 @@ def apply_style_transfer(content_image, style_image):
     except Exception as e:
         print(f"Error in style transfer: {e}")
         print(traceback.format_exc())
-        # Fallback to simple implementation if neural network fails
-        return simple_style_transfer(content_image, style_image)
+        # Re-raise exception to trigger the main fallback (returning original image)
+        # instead of the simple_style_transfer which might be confusing or failing
+        raise e
 
 
 def simple_style_transfer(content_img, style_img):
