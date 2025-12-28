@@ -26,14 +26,16 @@ services:
       - key: TF_SERVING_URL
         value: http://imagestyle-model:8501/v1/models/style_transfer:predict
 
-  # Frontend Static Site
-  # Note: Render YAML support for static sites is limited in some contexts, 
-  # but this is the standard definition.
-  - type: web
+  # Frontend Static Site (Best for React, Free, Fast)
+  - type: static
     name: imagestyle-frontend
-    env: node
+    env: static
     buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm install -g serve && serve -s build
+    publishDir: frontend/build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: REACT_APP_API_URL
         fromService:
