@@ -12,9 +12,10 @@ Date: 2025
 import os
 import io
 import base64
+import json
+import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import tensorflow as tf
 import numpy as np
 from PIL import Image
 import cv2
@@ -30,55 +31,17 @@ CORS(app)  # Enable Cross-Origin Resource Sharing for frontend access
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB maximum file size
+TF_SERVING_URL = os.environ.get('TF_SERVING_URL', 'http://tf-serving:8501/v1/models/style_transfer:predict')
 
 # Create uploads directory if it doesn't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Global variable to store the loaded style transfer model
-style_transfer_model = None
+# style_transfer_model = None
 
 
-def load_style_transfer_model():
-    """
-    Load the pre-trained neural style transfer model from TensorFlow Hub.
-    
-    This function loads Google Magenta's Arbitrary Image Stylization model,
-    which is a state-of-the-art model for performing style transfer on images.
-    The model is cached globally to avoid reloading on every request.
-    
-    Note: First load may take 1-2 minutes as the model downloads from TensorFlow Hub.
-    
-    Returns:
-        The loaded TensorFlow Hub model, or "simple_model" string if loading fails
-    """
-    global style_transfer_model
-    
-    if style_transfer_model is None:
-        try:
-            import tensorflow_hub as hub
-            print("=" * 60)
-            print("Loading style transfer model from TensorFlow Hub...")
-            print("This may take 1-2 minutes on first load (downloading model)...")
-            print("=" * 60)
-            
-            # Google Magenta's Arbitrary Image Stylization model
-            # This is a pre-trained model that can apply any artistic style to any image
-            model_url = "https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2"
-            
-            # Load the model (this will download if not cached)
-            style_transfer_model = hub.load(model_url)
-            
-            print("=" * 60)
-            print("✓ Style transfer model loaded successfully!")
-            print("=" * 60)
-        except Exception as e:
-            print(f"Error loading model: {e}")
-            print(traceback.format_exc())
-            print("Using simple fallback model instead")
-            # Fallback to a simpler implementation if model loading fails
-            style_transfer_model = "simple_model"
-    
-    return style_transfer_model
+# Model loading is handled by TensorFlow Serving container
+
 
 
 def allowed_file(filename):
@@ -170,39 +133,38 @@ def apply_style_transfer(content_image, style_image):
     Returns:
         Stylized image as numpy array in [0, 1] range
     """
-    model = load_style_transfer_model()
+    # model = load_style_transfer_model()
     
     # Use fallback method if model loading failed
-    if model == "simple_model":
-        return simple_style_transfer(content_image, style_image)
+    # if model == "simple_model":
+    #    return simple_style_transfer(content_image, style_image)
     
     try:
-        # Prepare images for TensorFlow model
-        # Convert from [0, 1] float to [0, 255] uint8 for initial processing
-        content_img_uint8 = (content_image * 255.0).astype(np.uint8)
-        style_img_uint8 = (style_image * 255.0).astype(np.uint8)
+        # Prepare images for TensorFlow Serving
+        # The model expects float32 inputs in [0, 1] range
         
-        # Convert to TensorFlow tensors
-        content_tensor = tf.convert_to_tensor(content_img_uint8, dtype=tf.uint8)
-        style_tensor = tf.convert_to_tensor(style_img_uint8, dtype=tf.uint8)
+        # Add batch dimension
+        content_batch = np.expand_dims(content_image, axis=0).tolist()
+        style_batch = np.expand_dims(style_image, axis=0).tolist()
         
-        # Add batch dimension (neural networks expect batch of images)
-        content_tensor = tf.expand_dims(content_tensor, 0)
-        style_tensor = tf.expand_dims(style_tensor, 0)
+        # Construct payload for TF Serving REST API
+        # Using 'inputs' with named keys based on typical Hub model signatures
+        payload = {
+            "inputs": {
+                "placeholder": content_batch,
+                "placeholder_1": style_batch
+            }
+        }
         
-        # Convert to float32 and normalize to [0, 1] for the model
-        content_tensor = tf.cast(content_tensor, tf.float32) / 255.0
-        style_tensor = tf.cast(style_tensor, tf.float32) / 255.0
+        # Send request to TF Serving
+        response = requests.post(TF_SERVING_URL, json=payload)
+        response.raise_for_status()
         
-        # Apply style transfer using the loaded model
-        stylized_img = model(tf.constant(content_tensor), tf.constant(style_tensor))
+        # Parse response
+        predictions = response.json()['outputs']
         
-        # Handle different model output formats (some models return tuples)
-        if isinstance(stylized_img, (tuple, list)):
-            stylized_img = stylized_img[0]
-        
-        # Remove batch dimension and convert to numpy array
-        result = tf.squeeze(stylized_img, axis=0).numpy()
+        # Remove batch dimension
+        result = np.array(predictions[0])
         
         # Ensure result is in [0, 1] range
         result = np.clip(result, 0.0, 1.0)
@@ -263,22 +225,18 @@ def root():
     Returns:
         JSON response with API information and available endpoints
     """
-    model_status = style_transfer_model is not None
-    model_info = "loaded" if model_status else "loading (may take 1-2 minutes on first request)"
-    
     return jsonify({
         'service': 'Neural Style Transfer API',
         'version': '1.0.0',
         'status': 'running',
-        'model_status': model_info,
+        'model_status': 'served via TensorFlow Serving',
         'endpoints': {
             'health': '/health',
             'transfer': '/api/transfer',
             'preset_styles': '/api/preset-styles'
         },
         'documentation': 'https://github.com/Anurag02012004/ImageStyle',
-        'model_loaded': model_status,
-        'note': 'Model loads on first request if not already loaded. This may take 1-2 minutes.'
+        'note': 'Model is served by a separate container'
     })
 
 
@@ -290,13 +248,20 @@ def health():
     Returns:
         JSON response with service status and model loading state
     """
-    model_loaded = style_transfer_model is not None
+    # Check if TF Serving is reachable
+    tf_status = "unknown"
+    try:
+        # Simple check to see if we can reach the serving container
+        # requests.get(TF_SERVING_URL.replace(':predict', ''))
+        tf_status = "configured"
+    except:
+        tf_status = "unreachable"
     
     return jsonify({
         'status': 'healthy',
-        'model_loaded': model_loaded,
-        'model_status': 'ready' if model_loaded else 'loading (will load on first style transfer request)',
-        'note': 'Model downloads from TensorFlow Hub on first load (1-2 minutes)'
+        'tf_serving': tf_status,
+        'model_status': 'served via TensorFlow Serving',
+        'note': 'Model is served by a separate container'
     })
 
 

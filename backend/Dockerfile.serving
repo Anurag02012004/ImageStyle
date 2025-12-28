@@ -1,0 +1,5 @@
+FROM tensorflow/serving
+
+COPY models/style_transfer /models/style_transfer
+
+ENV MODEL_NAME=style_transfer

@@ -2,20 +2,41 @@
 # For more information, see: https://render.com/docs/yaml-spec
 
 services:
+  # TensorFlow Serving Model
+  - type: web
+    name: imagestyle-model
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile.serving
+    plan: free
+    healthCheckPath: /v1/models/style_transfer
+    envVars:
+      - key: MODEL_NAME
+        value: style_transfer
+
   # Backend API Service
   - type: web
     name: imagestyle-backend
-    env: python
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app:app
-    envVars:
-      - key: PORT
-        value: 8000
-      - key: PYTHON_VERSION
-        value: 3.11.0
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
     plan: free
     healthCheckPath: /health
+    envVars:
+      - key: TF_SERVING_URL
+        value: http://imagestyle-model:8501/v1/models/style_transfer:predict
 
-  # Frontend - Deploy as separate static site (deploy manually in Render dashboard)
-  # Note: Static sites cannot be configured in render.yaml
-  # Deploy frontend separately: New → Static Site → Connect repo → Build: cd frontend && npm install && npm run build → Publish: frontend/build
+  # Frontend Static Site
+  # Note: Render YAML support for static sites is limited in some contexts, 
+  # but this is the standard definition.
+  - type: web
+    name: imagestyle-frontend
+    env: node
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm install -g serve && serve -s build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: imagestyle-backend
+          property: url

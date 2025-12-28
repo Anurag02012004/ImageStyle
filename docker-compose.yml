@@ -9,14 +9,27 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
+      - TF_SERVING_URL=http://tf-serving:8501/v1/models/style_transfer:predict
     volumes:
       - ./backend/uploads:/app/uploads
+    depends_on:
+      - tf-serving
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+
+  tf-serving:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.serving
+    ports:
+      - "8501:8501"
+    environment:
+      - MODEL_NAME=style_transfer
+    restart: unless-stopped
 
   frontend:
     build:
