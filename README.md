@@ -12,7 +12,7 @@ A sophisticated, production-ready web application that transforms ordinary photo
 - ** Docker Ready**: Complete containerization for easy deployment
 - ** Responsive Design**: Beautiful, modern UI that works on all devices
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 - **Python 3.11+**: Core backend language
